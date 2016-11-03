@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PPPlus</string>
+    <string name="out_header">Мои любимые студенты</string>
+
 </resources>
