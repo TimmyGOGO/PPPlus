@@ -4,11 +4,13 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TextView textHeader;
+    Button singleButton;
 
     String[] names = {"Артем", "Саня Ф.", "Саня К.", "Миша Ц.", "Аня", "Юля", "Миша М.", "Настя Б."};
 
@@ -24,5 +26,10 @@ public class MainActivity extends AppCompatActivity {
         ListView studList = (ListView)findViewById(R.id.listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
         studList.setAdapter(adapter);
+
+        singleButton = (Button)findViewById(R.id.button);
+        singleButton.setTypeface(myTypeFace);
+        singleButton.setText("Press me");
+
     }
 }
