@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,12 +31,19 @@ public class MainActivity extends AppCompatActivity {
         textHeader.setTypeface(myTypeFace);
 
         studList = (ListView) findViewById(R.id.listView);
-        //mode of choosing items:
-        studList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         //creating the adapter:
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.s_names, android.R.layout.simple_list_item_multiple_choice);
+                this, R.array.s_names, android.R.layout.simple_list_item_1);
         studList.setAdapter(adapter);
+
+        //to process the click on list item
+        studList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(LOG_TAG, "itemSelect: position = " + position + " id = " + id);
+            }
+        });
 
         singleButton = (Button)findViewById(R.id.button);
         singleButton.setTypeface(myTypeFace);
@@ -44,15 +52,7 @@ public class MainActivity extends AppCompatActivity {
         singleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(LOG_TAG, "checked: ");
-                SparseBooleanArray barray = studList.getCheckedItemPositions();
-                for (int i = 0; i < barray.size(); i++) {
-                    int key = barray.keyAt(i);
-                    if (barray.get(key)) {
-                        Log.d(LOG_TAG, names[key]);
-                    }
 
-                }
             }
         });
 
