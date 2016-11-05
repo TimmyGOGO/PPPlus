@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         studList = (ListView) findViewById(R.id.listView);
         //mode of choosing items:
-        studList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        studList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         //creating the adapter:
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.s_names, android.R.layout.simple_list_item_single_choice);
+                this, R.array.s_names, android.R.layout.simple_list_item_multiple_choice);
         studList.setAdapter(adapter);
 
         singleButton = (Button)findViewById(R.id.button);
@@ -42,9 +43,18 @@ public class MainActivity extends AppCompatActivity {
         singleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(LOG_TAG, "checked: " + names[studList.getCheckedItemPosition()]);
+                Log.d(LOG_TAG, "checked: ");
+                SparseBooleanArray barray = studList.getCheckedItemPositions();
+                for (int i = 0; i < barray.size(); i++) {
+                    int key = barray.keyAt(i);
+                    if (barray.get(key)) {
+                        Log.d(LOG_TAG, names[key]);
+                    }
+
+                }
             }
         });
+
 
         //getting an array from resources:
         names = getResources().getStringArray(R.array.s_names);
