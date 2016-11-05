@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">PPPlus</string>
     <string name="out_header">Мои любимые студенты</string>
+    <string-array name="s_names">
+        <item>Саня Ф.</item>
+        <item>Саня К.</item>
+        <item>Юля</item>
+        <item>Настя</item>
+        <item>Артем</item>
+        <item>Миша Ц.</item>
+        <item>Миша М.</item>
+        <item>Аня</item>
+    </string-array>
 
 </resources>
