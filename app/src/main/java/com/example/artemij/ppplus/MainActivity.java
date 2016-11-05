@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         singleButton = (Button)findViewById(R.id.button);
         singleButton.setTypeface(myTypeFace);
         singleButton.setText("Press me");
+
         singleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
