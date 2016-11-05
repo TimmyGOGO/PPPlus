@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         studList = (ListView) findViewById(R.id.listView);
 
+        studList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         //creating the adapter:
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.s_names, android.R.layout.simple_list_item_1);
+                this, R.array.s_names, android.R.layout.simple_list_item_single_choice);
         studList.setAdapter(adapter);
 
         //to process the click on list item
@@ -42,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(LOG_TAG, "itemClick: position = " + position + " id = " + id);
+            }
+        });
+
+        studList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(LOG_TAG, "itemLongClick: position = " + position + " id = " + id);
+                return false;
             }
         });
 
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(LOG_TAG, "itemSelect: nothing");
             }
         });
+
 
         singleButton = (Button)findViewById(R.id.button);
         singleButton.setTypeface(myTypeFace);
