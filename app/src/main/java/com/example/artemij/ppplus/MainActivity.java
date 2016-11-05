@@ -3,6 +3,8 @@ package com.example.artemij.ppplus;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     ListView studList;
 
     String[] names;
+
+    final String LOG_TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
         singleButton = (Button)findViewById(R.id.button);
         singleButton.setTypeface(myTypeFace);
         singleButton.setText("Press me");
+        singleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG, "checked: " + names[studList.getCheckedItemPosition()]);
+            }
+        });
+
+        //getting an array from resources:
+        names = getResources().getStringArray(R.array.s_names);
 
     }
 }
