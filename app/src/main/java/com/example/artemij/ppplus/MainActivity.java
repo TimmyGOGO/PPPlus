@@ -11,8 +11,9 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     TextView textHeader;
     Button singleButton;
+    ListView studList;
 
-    String[] names = {"Артем", "Саня Ф.", "Саня К.", "Миша Ц.", "Аня", "Юля", "Миша М.", "Настя Б."};
+    String[] names;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
         textHeader = (TextView)findViewById(R.id.textView1);
         textHeader.setTypeface(myTypeFace);
 
-        ListView studList = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+        studList = (ListView) findViewById(R.id.listView);
+        //mode of choosing items:
+        studList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        //creating the adapter:
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.s_names, android.R.layout.simple_list_item_single_choice);
         studList.setAdapter(adapter);
 
         singleButton = (Button)findViewById(R.id.button);
