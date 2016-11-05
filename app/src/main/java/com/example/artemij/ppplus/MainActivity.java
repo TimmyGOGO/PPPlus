@@ -41,7 +41,19 @@ public class MainActivity extends AppCompatActivity {
         studList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(LOG_TAG, "itemClick: position = " + position + " id = " + id);
+            }
+        });
+
+        studList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(LOG_TAG, "itemSelect: position = " + position + " id = " + id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Log.d(LOG_TAG, "itemSelect: nothing");
             }
         });
 
