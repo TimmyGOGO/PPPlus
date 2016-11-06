@@ -14,26 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:textColor="#131312"
-            android:text="@string/out_header"
-            android:id="@+id/textView1"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1" />
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="168dp"
+            android:layout_height="168dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#04dc08" />
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="416dp"
+            android:layout_height="fill_parent"
             android:id="@+id/listView"
             android:layout_below="@+id/textView"
             android:layout_weight="1" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:text="New Button"
             android:id="@+id/button"
             android:layout_weight="1" />
