@@ -26,7 +26,9 @@
             android:layout_height="fill_parent"
             android:text="New Button"
             android:id="@+id/button"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            android:textSize="20dp"
+            android:textStyle="italic" />
     </LinearLayout>
 
 

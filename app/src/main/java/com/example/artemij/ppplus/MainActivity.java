@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Student> listS = new ArrayList<>();
 
     static final int GALLERY_REQUEST = 1;
+    static final int CM_PLUS_ID = 0;
+    static final int CM_EDIT_ID = 1;
+    static final int CM_DELETE_ID = 2;
 
     final String LOG_TAG = "myLogs";
     /**
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(studList);
 
         singleButton = (Button) findViewById(R.id.button);
-        //singleButton.setTypeface(myTypeFace);
+        singleButton.setTypeface(myTypeFace);
         singleButton.setText("Добавить");
 
         singleButton.setOnClickListener(new View.OnClickListener() {
@@ -74,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
 
-                    Student newS = new Student("Артем Иванов", "Милый зам.старосты", 1, selectedImage);
+                    Student newS = new Student("Агакерим Агададашев", "Милый зам.старосты", 1, selectedImage);
                     Log.d("myLogs", "Новый элемент: " + newS.getName() + " " + newS.getNickName() + " " + newS.getPlusAmount());
                     listS.add(newS);
                     specAdapter.notifyDataSetChanged();
@@ -98,43 +100,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Про контекстное меню:
     @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.artemij.ppplus/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, CM_PLUS_ID, 0, "Плюсанем");
+        menu.add(0, CM_EDIT_ID, 1, "Подправим");
+        menu.add(0, CM_DELETE_ID, 2, "Удалим");
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public boolean onContextItemSelected(MenuItem item) {
+        // получаем инфу о пункте списка
+        final AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.example.artemij.ppplus/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
+        if (item.getItemId() == CM_PLUS_ID) {
+            //прибавляем значение:
+            (listS.get(acmi.position)).addPlus();
+            specAdapter.notifyDataSetChanged();
+            Log.d(LOG_TAG, "Элементу в позиции" + acmi.position + "прибавлен плюс");
+
+            return true;
+        } else if (item.getItemId() == CM_EDIT_ID) {
+            //запускаем вторую активность:
+
+
+        } else if (item.getItemId() == CM_DELETE_ID) {
+            //удаляем ненужный элемент списка:
+            listS.remove(acmi.position);
+            specAdapter.notifyDataSetChanged();
+            Log.d(LOG_TAG, "Элемент в позиции" + acmi.position + "удален");
+        }
+
+        return super.onContextItemSelected(item);
     }
+
 }

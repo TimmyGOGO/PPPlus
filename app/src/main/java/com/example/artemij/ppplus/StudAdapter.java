@@ -82,8 +82,6 @@ public class StudAdapter extends BaseAdapter {
         Student temp = getStudent(position);
         Typeface myTypeFace = Typeface.createFromAsset(ctx.getAssets(), "HelveticaNeueCyr-Light.otf");
 
-        //Log.d("myLogs", "Новый элемент: " + temp.getName() + " " + temp.getNickName() + " " + temp.getPlusAmount());
-
         //заполняем View в пункте списка данными из Информации о цвете:
         ((TextView) view.findViewById(R.id.textNumber)).setTypeface(myTypeFace);
         ((TextView) view.findViewById(R.id.textNumber)).setText(temp.getStringPlusAmount());
