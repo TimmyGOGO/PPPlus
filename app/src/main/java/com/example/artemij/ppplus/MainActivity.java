@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
 
+        Log.d(LOG_TAG, "Сообщение");
+        Log.d(LOG_TAG, "Список пуст: " + "none" + " " + "none" + " " + 0);
         specAdapter = new StudAdapter(this, listS);
 
         studList = (ListView) findViewById(R.id.listView);
