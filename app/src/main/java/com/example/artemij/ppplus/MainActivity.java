@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
 
-                    Student newS = new Student("Артем Иванов", "Темыч", 1, selectedImage);
+                    Student newS = new Student("Артем Иванов", "Милый зам.старосты", 1, selectedImage);
                     Log.d("myLogs", "Новый элемент: " + newS.getName() + " " + newS.getNickName() + " " + newS.getPlusAmount());
                     listS.add(newS);
                     specAdapter.notifyDataSetChanged();
