@@ -41,6 +41,10 @@ public class Student {
         return plusAmount;
     }
 
+    public String getStringPlusAmount() {
+        return new String("" + plusAmount);
+    }
+
     public String getName() {
         return name;
     }

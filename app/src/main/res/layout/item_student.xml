@@ -19,8 +19,8 @@
         android:text="70"
         android:id="@+id/textNumber"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="20dp"
-        android:textSize="70dp"
+        android:layout_marginTop="30dp"
+        android:textSize="50dp"
         android:textColor="#0b8409" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"

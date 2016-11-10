@@ -80,18 +80,18 @@ public class StudAdapter extends BaseAdapter {
 
         //получить стуента по позиции:
         Student temp = getStudent(position);
-        //Typeface myTypeFace = Typeface.createFromAsset(ctx.getAssets(), "HelveticaNeueCyr-Light.otf");
+        Typeface myTypeFace = Typeface.createFromAsset(ctx.getAssets(), "HelveticaNeueCyr-Light.otf");
 
         //Log.d("myLogs", "Новый элемент: " + temp.getName() + " " + temp.getNickName() + " " + temp.getPlusAmount());
 
         //заполняем View в пункте списка данными из Информации о цвете:
-        //((TextView) view.findViewById(R.id.textNumber)).setTypeface(myTypeFace);
-        //((TextView) view.findViewById(R.id.textNumber)).setText(temp.getPlusAmount());
-        //((TextView) view.findViewById(R.id.textNick)).setTypeface(myTypeFace);
-        //((TextView) view.findViewById(R.id.textNick)).setText(temp.getNickName());
-        //((TextView) view.findViewById(R.id.textFullname)).setTypeface(myTypeFace);
-        //((TextView) view.findViewById(R.id.textFullname)).setText(temp.getName());
-        /*
+        ((TextView) view.findViewById(R.id.textNumber)).setTypeface(myTypeFace);
+        ((TextView) view.findViewById(R.id.textNumber)).setText(temp.getStringPlusAmount());
+        ((TextView) view.findViewById(R.id.textNick)).setTypeface(myTypeFace);
+        ((TextView) view.findViewById(R.id.textNick)).setText(temp.getNickName());
+        ((TextView) view.findViewById(R.id.textFullname)).setTypeface(myTypeFace);
+        ((TextView) view.findViewById(R.id.textFullname)).setText(temp.getName());
+
         Bitmap galleryPic = null;
         CircleImageView img = (CircleImageView) view.findViewById(R.id.student_image);
         try {
@@ -102,7 +102,7 @@ public class StudAdapter extends BaseAdapter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
+
         //для реализации фишек:
         view.setLongClickable(true);
         view.setClickable(true);
