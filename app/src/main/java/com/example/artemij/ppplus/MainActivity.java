@@ -29,10 +29,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-//import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
-    CircleImageView image;
     Button singleButton;
     ListView studList;
 
@@ -45,11 +43,6 @@ public class MainActivity extends AppCompatActivity {
     static final int CM_DELETE_ID = 2;
 
     final String LOG_TAG = "myLogs";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
 
-        Log.d(LOG_TAG, "Сообщение");
-        Log.d(LOG_TAG, "Список пуст: " + "none" + " " + "none" + " " + 0);
         specAdapter = new StudAdapter(this, listS);
 
         studList = (ListView) findViewById(R.id.listView);
