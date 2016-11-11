@@ -4,11 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="120dp"
     android:background="@drawable/listitemselector"
-    android:focusable="false"
     android:weightSum="1">
 
     <ImageView
-        android:focusable="false"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/imagePlus"
@@ -16,7 +14,6 @@
         android:layout_gravity="center_vertical" />
 
     <TextView
-        android:focusable="false"
         android:layout_width="40dp"
         android:layout_height="37dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -29,7 +26,6 @@
         android:layout_gravity="center_vertical" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:focusable="false"
         android:id="@+id/student_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -41,14 +37,12 @@
         android:layout_marginRight="5dp" />
 
     <LinearLayout
-        android:focusable="false"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.97">
 
         <TextView
-            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -61,7 +55,6 @@
             android:layout_gravity="top|left|bottom|center_vertical" />
 
         <TextView
-            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"

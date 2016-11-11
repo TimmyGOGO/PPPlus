@@ -1,6 +1,7 @@
 package com.example.artemij.ppplus;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.provider.MediaStore;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -79,7 +81,7 @@ public class StudAdapter extends BaseAdapter {
         }
 
         //получить стуента по позиции:
-        Student temp = getStudent(position);
+        final Student temp = getStudent(position);
         Typeface myTypeFace = Typeface.createFromAsset(ctx.getAssets(), "HelveticaNeueCyr-Light.otf");
 
         //заполняем View в пункте списка данными из Информации о цвете:
@@ -104,6 +106,18 @@ public class StudAdapter extends BaseAdapter {
         //для реализации фишек:
         view.setLongClickable(true);
         view.setClickable(true);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, EditActivity.class);
+                intent.putExtra("TypeCall", "EDIT");
+                intent.putExtra("studentObject", temp);
+
+                ctx.startActivity(intent);
+                Toast.makeText(ctx, "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

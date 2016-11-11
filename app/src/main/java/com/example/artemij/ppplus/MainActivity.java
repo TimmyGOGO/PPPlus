@@ -20,6 +20,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Student> listS = new ArrayList<>();
 
     static final int GALLERY_REQUEST = 1;
+
     static final int CM_PLUS_ID = 0;
     static final int CM_EDIT_ID = 1;
     static final int CM_DELETE_ID = 2;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         studList.addHeaderView(header);
         studList.setAdapter(specAdapter);
         studList.setFocusable(false);
+        studList.setClickable(true);
         registerForContextMenu(studList);
 
         singleButton = (Button) findViewById(R.id.button);
@@ -75,18 +78,19 @@ public class MainActivity extends AppCompatActivity {
         singleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("TypeCall", "NEW");
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
+
+                /*
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                */
             }
         });
 
-        studList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onClick(view);
-            }
-        });
     }
 
     private View createHeader(String[] p, Typeface tf) {
@@ -100,18 +104,6 @@ public class MainActivity extends AppCompatActivity {
         return v;
     }
 
-    public void onClick(View v) {
-        Object obj;
-        HeaderViewListAdapter hvlAdapter = (HeaderViewListAdapter) studList.getAdapter();
-        obj = hvlAdapter.getItem(0);
-        Log.d(LOG_TAG, "hvlAdapter.getItem(0) = " + obj.toString());
-
-
-        ArrayAdapter<String> alAdapter = (ArrayAdapter<String>) hvlAdapter.getWrappedAdapter();
-        obj = alAdapter.getItem(0);
-        Log.d(LOG_TAG, "alAdapter.getItem(0) = " + obj.toString());
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -129,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     listS.add(newS);
                     specAdapter.notifyDataSetChanged();
                 }
+                //case EDIT_ACTIVITY_RETURN:
         }
     }
 
@@ -159,7 +152,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == CM_EDIT_ID) {
             //запускаем вторую активность:
-
+            final Student temp = listS.get(acmi.position - offset);
+            Intent intent = new Intent(this, EditActivity.class);
+            intent.putExtra("TypeCall", "EDIT");
+            intent.putExtra("studentObject", temp);
+            startActivity(intent);
+            Toast.makeText(this, "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
 
         } else if (item.getItemId() == CM_DELETE_ID) {
             //удаляем ненужный элемент списка:

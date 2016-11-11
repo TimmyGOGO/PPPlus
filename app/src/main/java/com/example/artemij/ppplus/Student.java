@@ -3,10 +3,12 @@ package com.example.artemij.ppplus;
 import android.media.Image;
 import android.net.Uri;
 
+import java.io.Serializable;
+
 /**
  * Created by Artemij on 06.11.2016.
  */
-public class Student {
+public class Student implements Serializable {
     private String name;
     private String nickName;
     private int plusAmount;
