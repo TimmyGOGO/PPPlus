@@ -12,9 +12,11 @@ import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     final String LOG_TAG = "myLogs";
 
+    View header;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +56,16 @@ public class MainActivity extends AppCompatActivity {
         Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
 
         specAdapter = new StudAdapter(this, listS);
+        String[] hNames = {"Плюсы", "Фото", "Имя"};
+        header = createHeader(hNames, myTypeFace);
+
 
         studList = (ListView) findViewById(R.id.listView);
+        studList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+
+        studList.addHeaderView(header);
         studList.setAdapter(specAdapter);
+        studList.setFocusable(false);
         registerForContextMenu(studList);
 
         singleButton = (Button) findViewById(R.id.button);
@@ -69,6 +80,36 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
             }
         });
+
+        studList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onClick(view);
+            }
+        });
+    }
+
+    private View createHeader(String[] p, Typeface tf) {
+        View v = getLayoutInflater().inflate(R.layout.header_layout, null);
+        ((TextView) v.findViewById(R.id.texth1)).setText(p[0]);
+        ((TextView) v.findViewById(R.id.texth1)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.texth2)).setText(p[1]);
+        ((TextView) v.findViewById(R.id.texth2)).setTypeface(tf);
+        ((TextView) v.findViewById(R.id.texth3)).setText(p[2]);
+        ((TextView) v.findViewById(R.id.texth3)).setTypeface(tf);
+        return v;
+    }
+
+    public void onClick(View v) {
+        Object obj;
+        HeaderViewListAdapter hvlAdapter = (HeaderViewListAdapter) studList.getAdapter();
+        obj = hvlAdapter.getItem(0);
+        Log.d(LOG_TAG, "hvlAdapter.getItem(0) = " + obj.toString());
+
+
+        ArrayAdapter<String> alAdapter = (ArrayAdapter<String>) hvlAdapter.getWrappedAdapter();
+        obj = alAdapter.getItem(0);
+        Log.d(LOG_TAG, "alAdapter.getItem(0) = " + obj.toString());
 
     }
 
@@ -106,11 +147,14 @@ public class MainActivity extends AppCompatActivity {
         // получаем инфу о пункте списка
         final AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
+        //если добавили header-ы к списку, то  придется вычитать их из позиции:
+        int offset = studList.getHeaderViewsCount();
+
         if (item.getItemId() == CM_PLUS_ID) {
             //прибавляем значение:
-            (listS.get(acmi.position)).addPlus();
+            (listS.get(acmi.position - offset)).addPlus();
             specAdapter.notifyDataSetChanged();
-            Log.d(LOG_TAG, "Элементу в позиции" + acmi.position + "прибавлен плюс");
+            Log.d(LOG_TAG, "Элементу в позиции " + (acmi.position - offset) + " прибавлен плюс");
 
             return true;
         } else if (item.getItemId() == CM_EDIT_ID) {
@@ -119,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (item.getItemId() == CM_DELETE_ID) {
             //удаляем ненужный элемент списка:
-            listS.remove(acmi.position);
+            listS.remove(acmi.position - offset);
             specAdapter.notifyDataSetChanged();
-            Log.d(LOG_TAG, "Элемент в позиции" + acmi.position + "удален");
+            Log.d(LOG_TAG, "Элемент в позиции " + (acmi.position - offset) + " удален");
         }
 
         return super.onContextItemSelected(item);
