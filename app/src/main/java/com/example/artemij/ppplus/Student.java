@@ -9,12 +9,14 @@ import java.io.Serializable;
  * Created by Artemij on 06.11.2016.
  */
 public class Student implements Serializable {
+    private int position;
     private String name;
     private String nickName;
     private int plusAmount;
     private Uri imageUri;
 
     public Student() {
+        position = 0;
         name = "";
         nickName = "";
         plusAmount = 0;
@@ -33,6 +35,14 @@ public class Student implements Serializable {
         nickName = _nickName;
         plusAmount = pA;
         imageUri = img;
+    }
+
+    public void setPosition(int pos) {
+        position = pos;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public Uri getStudentImageUri() {
@@ -61,6 +71,10 @@ public class Student implements Serializable {
 
     public void substractPlus() {
         plusAmount = plusAmount - 1;
+    }
+
+    public void setUri(Uri imgUri) {
+        imageUri = imgUri;
     }
 
 

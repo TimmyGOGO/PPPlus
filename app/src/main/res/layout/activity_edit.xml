@@ -45,7 +45,8 @@
             <ImageView
                 android:layout_width="170dp"
                 android:layout_height="match_parent"
-                android:id="@+id/imageView" />
+                android:src="@drawable/No_avatar"
+                android:id="@+id/imageViewEdit" />
         </LinearLayout>
 
         <LinearLayout

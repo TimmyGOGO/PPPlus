@@ -1,5 +1,6 @@
 package com.example.artemij.ppplus;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -40,13 +41,12 @@ public class MainActivity extends AppCompatActivity {
     StudAdapter specAdapter;
     ArrayList<Student> listS = new ArrayList<>();
 
-    static final int GALLERY_REQUEST = 1;
-
     static final int CM_PLUS_ID = 0;
     static final int CM_EDIT_ID = 1;
     static final int CM_DELETE_ID = 2;
 
     final String LOG_TAG = "myLogs";
+    static final int CALL_EDIT_ACTIVITY = 1;
 
     View header;
 
@@ -82,12 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("TypeCall", "NEW");
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
-
-                /*
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-                */
             }
         });
 
@@ -106,22 +100,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        Bitmap galleryPic = null;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case GALLERY_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    Uri selectedImage = imageReturnedIntent.getData();
+            case CALL_EDIT_ACTIVITY:
+                if (resultCode == Activity.RESULT_OK) {
+                    String type = data.getStringExtra("TypeCall");
+                    Student newStud = (Student) data.getSerializableExtra("studentObject");
 
-                    Student newS = new Student("Агакерим Агададашев", "Милый зам.старосты", 1, selectedImage);
-                    Log.d("myLogs", "Новый элемент: " + newS.getName() + " " + newS.getNickName() + " " + newS.getPlusAmount());
-                    listS.add(newS);
+                    listS.add(newStud);
+                    int pos = listS.indexOf(newStud);
+                    (listS.get(pos)).setPosition(pos);
                     specAdapter.notifyDataSetChanged();
+
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+
                 }
-                //case EDIT_ACTIVITY_RETURN:
         }
     }
 
@@ -156,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditActivity.class);
             intent.putExtra("TypeCall", "EDIT");
             intent.putExtra("studentObject", temp);
-            startActivity(intent);
+            startActivityForResult(intent, CALL_EDIT_ACTIVITY);
             Toast.makeText(this, "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
 
         } else if (item.getItemId() == CM_DELETE_ID) {
