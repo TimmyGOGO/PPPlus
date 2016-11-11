@@ -13,7 +13,7 @@ public class Student implements Serializable {
     private String name;
     private String nickName;
     private int plusAmount;
-    private Uri imageUri;
+    private String imageUri;
 
     public Student() {
         position = 0;
@@ -23,14 +23,14 @@ public class Student implements Serializable {
         imageUri = null;
     }
 
-    public Student(String _name, String _nickName, int pA, Uri img) {
+    public Student(String _name, String _nickName, int pA, String img) {
         name = _name;
         nickName = _nickName;
         plusAmount = pA;
         imageUri = img;
     }
 
-    public void describeStudent(String _name, String _nickName, int pA, Uri img) {
+    public void describeStudent(String _name, String _nickName, int pA, String img) {
         name = _name;
         nickName = _nickName;
         plusAmount = pA;
@@ -45,8 +45,13 @@ public class Student implements Serializable {
         return position;
     }
 
-    public Uri getStudentImageUri() {
+    public String getStringImageUri() {
         return imageUri;
+    }
+
+    public Uri getStudentImageUri() {
+        Uri myUri = Uri.parse(imageUri);
+        return myUri;
     }
 
     public int getPlusAmount() {
@@ -73,7 +78,7 @@ public class Student implements Serializable {
         plusAmount = plusAmount - 1;
     }
 
-    public void setUri(Uri imgUri) {
+    public void setUri(String imgUri) {
         imageUri = imgUri;
     }
 

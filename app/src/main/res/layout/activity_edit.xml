@@ -58,9 +58,9 @@
             <Switch
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Исправить"
+                android:text="Ник"
                 android:id="@+id/switchNick"
-                android:checked="false"
+                android:checked="true"
                 android:layout_weight="1" />
 
             <EditText
@@ -80,9 +80,9 @@
             <Switch
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Исправить"
+                android:text="Полное имя"
                 android:id="@+id/switchName"
-                android:checked="false"
+                android:checked="true"
                 android:layout_weight="1" />
 
             <EditText
@@ -102,9 +102,9 @@
             <Switch
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Исправить"
+                android:text="Кол-во плюсов"
                 android:id="@+id/switchPlus"
-                android:checked="false"
+                android:checked="true"
                 android:layout_weight="1" />
 
             <EditText

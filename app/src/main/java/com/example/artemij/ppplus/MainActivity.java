@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("TypeCall", "NEW");
-                startActivity(intent);
+                startActivityForResult(intent, CALL_EDIT_ACTIVITY);
                 Toast.makeText(getApplicationContext(), "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
             }
         });
@@ -106,16 +106,21 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case CALL_EDIT_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
+                    Bundle bn = data.getExtras();
                     String type = data.getStringExtra("TypeCall");
-                    Student newStud = (Student) data.getSerializableExtra("studentObject");
+                    Student newStud = (Student) bn.getSerializable("studentObject");
+
+                    Log.d(LOG_TAG, "Ник=" + newStud.getNickName() + " Имя=" + newStud.getName() + " Плюсы= " + newStud.getPlusAmount());
 
                     listS.add(newStud);
                     int pos = listS.indexOf(newStud);
                     (listS.get(pos)).setPosition(pos);
                     specAdapter.notifyDataSetChanged();
 
-                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    Toast.makeText(getApplicationContext(), "Ну, добавили=)", Toast.LENGTH_SHORT).show();
 
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    Toast.makeText(getApplicationContext(), "Передумали=)", Toast.LENGTH_SHORT).show();
                 }
         }
     }

@@ -88,18 +88,28 @@ public class EditActivity extends AppCompatActivity {
                         edName.getText().toString(),
                         edNick.getText().toString(),
                         plusAmount,
-                        studEdit.getStudentImageUri()
+                        studEdit.getStringImageUri()
                 );
 
                 Intent intent1 = new Intent();
                 intent1.putExtra("TypeCall", type);
-                intent1.putExtra("studentObject", studEdit);
+                Bundle b = new Bundle();
+                b.putSerializable("studentObject", studEdit);
+                intent1.putExtras(b);
+
                 setResult(Activity.RESULT_OK, intent1);
                 finish();
             }
         });
         bCANCEL = (Button) findViewById(R.id.btnCancel);
         bCANCEL.setTypeface(myTF);
+        bCANCEL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }
+        });
         loadSD = (Button) findViewById(R.id.btnLoad1);
         loadSD.setTypeface(myTF);
         loadSD.setOnClickListener(new View.OnClickListener() {
@@ -168,10 +178,12 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onBackPressed() {
         finish();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -185,7 +197,7 @@ public class EditActivity extends AppCompatActivity {
                         Bitmap galleryPic = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
                         img.setImageBitmap(galleryPic);
                         //запомнили адрес:
-                        studEdit.setUri(selectedImage);
+                        studEdit.setUri(selectedImage.toString());
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
