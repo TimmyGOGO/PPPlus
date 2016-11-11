@@ -143,9 +143,9 @@ public class EditActivity extends AppCompatActivity {
         edNick.setText(studEdit.getNickName());
         edName.setText(studEdit.getName());
         edPlus.setText(studEdit.getStringPlusAmount());
-        sNick.setChecked(true);
-        sNick.setChecked(true);
-        sNick.setChecked(true);
+        sNick.setChecked(false);
+        sNick.setChecked(false);
+        sNick.setChecked(false);
 
         try {
             Bitmap galleryPic = MediaStore.Images.Media.getBitmap(getContentResolver(), studEdit.getStudentImageUri());
@@ -162,9 +162,9 @@ public class EditActivity extends AppCompatActivity {
         edNick.setText("");
         edName.setText("");
         edPlus.setText("");
-        sNick.setChecked(false);
-        sNick.setChecked(false);
-        sNick.setChecked(false);
+        sNick.setChecked(true);
+        sNick.setChecked(true);
+        sNick.setChecked(true);
 
     }
 
