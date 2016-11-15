@@ -20,6 +20,8 @@ android {
 }
 
 dependencies {
+    provided 'org.projectlombok:lombok:1.12.2'
+
     compile project(':circleimageview')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
