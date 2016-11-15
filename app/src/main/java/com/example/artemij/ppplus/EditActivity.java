@@ -83,13 +83,12 @@ public class EditActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     plusAmount = 0;
                 }
-
-                studEdit.describeStudent(
-                        edName.getText().toString(),
-                        edNick.getText().toString(),
-                        plusAmount,
-                        studEdit.getStringImageUri()
-                );
+                studEdit = Student.newBuilder()
+                        .setName(edName.getText().toString())
+                        .setNickName(edNick.getText().toString())
+                        .setPlusAmount(plusAmount)
+                        .setUri(studEdit.getStringImageUri())
+                        .build();
 
                 Intent intent1 = new Intent();
                 intent1.putExtra("TypeCall", type);

@@ -23,19 +23,14 @@ public class Student implements Serializable {
         imageUri = null;
     }
 
-    public Student(String _name, String _nickName, int pA, String img) {
-        name = _name;
-        nickName = _nickName;
-        plusAmount = pA;
-        imageUri = img;
+    public Student(Student builder) {
+        position = builder.getPosition();
+        name = builder.getName();
+        nickName = builder.getNickName();
+        plusAmount = builder.getPlusAmount();
+        imageUri = builder.getStringImageUri();
     }
 
-    public void describeStudent(String _name, String _nickName, int pA, String img) {
-        name = _name;
-        nickName = _nickName;
-        plusAmount = pA;
-        imageUri = img;
-    }
 
     public void setPosition(int pos) {
         position = pos;
@@ -82,5 +77,51 @@ public class Student implements Serializable {
         imageUri = imgUri;
     }
 
+    public static Builder newBuilder() {
+        return new Student().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+            //private builder
+        }
+
+        public Builder setPosition(int pos) {
+
+            Student.this.position = pos;
+            return this;
+        }
+
+        public Builder setUri(String imgUri) {
+
+            Student.this.imageUri = imgUri;
+            return this;
+        }
+
+        public Builder setName(String _name) {
+
+            Student.this.name = _name;
+            return this;
+        }
+
+        public Builder setNickName(String _name) {
+
+            Student.this.nickName = _name;
+            return this;
+        }
+
+        public Builder setPlusAmount(int pA) {
+
+            Student.this.plusAmount = pA;
+            return this;
+        }
+
+        public Student build() {
+
+            return Student.this;
+        }
+
+    }
 
 }
