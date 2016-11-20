@@ -15,14 +15,14 @@ public class Student implements Serializable {
     private int plusAmount;
     private String imageUri;
 
+    //CONSTRUCTORS:
     public Student() {
         position = 0;
         name = "";
         nickName = "";
         plusAmount = 0;
-        imageUri = null;
+        imageUri = "";
     }
-
     public Student(Student builder) {
         position = builder.getPosition();
         name = builder.getName();
@@ -31,24 +31,7 @@ public class Student implements Serializable {
         imageUri = builder.getStringImageUri();
     }
 
-
-    public void setPosition(int pos) {
-        position = pos;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public String getStringImageUri() {
-        return imageUri;
-    }
-
-    public Uri getStudentImageUri() {
-        Uri myUri = Uri.parse(imageUri);
-        return myUri;
-    }
-
+    //SETTERS:
     public void setName(String _name) {
         name = _name;
     }
@@ -61,14 +44,14 @@ public class Student implements Serializable {
         plusAmount = pA;
     }
 
-    public int getPlusAmount() {
-        return plusAmount;
+    public void setUri(String imgUri) {
+        imageUri = imgUri;
+    }
+    public void setPosition(int pos) {
+        position = pos;
     }
 
-    public String getStringPlusAmount() {
-        return new String("" + plusAmount);
-    }
-
+    //GETTERS:
     public String getName() {
         return name;
     }
@@ -76,59 +59,73 @@ public class Student implements Serializable {
     public String getNickName() {
         return nickName;
     }
+    public int getPosition() {
+        return position;
+    }
 
+    public int getPlusAmount() {
+        return plusAmount;
+    }
+    public String getStringImageUri() {
+        return imageUri;
+    }
+
+    public Uri getStudentImageUri() {
+        Uri myUri = Uri.parse(imageUri);
+        return myUri;
+    }
+    public String getStringPlusAmount() {
+        return new String("" + plusAmount);
+    }
+
+    //ADDITIONS:
     public void addPlus() {
         plusAmount = plusAmount + 1;
     }
-
     public void substractPlus() {
         plusAmount = plusAmount - 1;
     }
 
-    public void setUri(String imgUri) {
-        imageUri = imgUri;
-    }
-
+    //BUILDER REALIZATION:
     public static Builder newBuilder() {
         return new Student().new Builder();
     }
 
     public class Builder {
 
+        //Constructor:
         private Builder() {
             //private builder
         }
 
+        //Setters:
         public Builder setPosition(int pos) {
 
             Student.this.position = pos;
             return this;
         }
-
         public Builder setUri(String imgUri) {
 
             Student.this.imageUri = imgUri;
             return this;
         }
-
         public Builder setName(String _name) {
 
             Student.this.name = _name;
             return this;
         }
-
         public Builder setNickName(String _name) {
 
             Student.this.nickName = _name;
             return this;
         }
-
         public Builder setPlusAmount(int pA) {
 
             Student.this.plusAmount = pA;
             return this;
         }
 
+        //for building class:
         public Student build() {
 
             return Student.this;

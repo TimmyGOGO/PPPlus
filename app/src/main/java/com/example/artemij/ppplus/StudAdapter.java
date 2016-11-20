@@ -93,15 +93,17 @@ public class StudAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.textFullname)).setTypeface(myTypeFace);
         ((TextView) view.findViewById(R.id.textFullname)).setText(temp.getName());
 
-        Bitmap galleryPic = null;
-        CircleImageView img = (CircleImageView) view.findViewById(R.id.student_image);
-        try {
-            galleryPic = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), temp.getStudentImageUri());
-            img.setImageBitmap(galleryPic);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!temp.getStringImageUri().equals("")) {
+            Bitmap galleryPic = null;
+            CircleImageView img = (CircleImageView) view.findViewById(R.id.student_image);
+            try {
+                galleryPic = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), temp.getStudentImageUri());
+                img.setImageBitmap(galleryPic);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         //для реализации фишек:

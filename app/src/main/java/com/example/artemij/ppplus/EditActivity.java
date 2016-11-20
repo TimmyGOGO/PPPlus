@@ -88,6 +88,7 @@ public class EditActivity extends AppCompatActivity {
                         .setName(edName.getText().toString())
                         .setNickName(edNick.getText().toString())
                         .setPlusAmount(plusAmount)
+                        .setPosition(studEdit.getPosition())
                         .setUri(studEdit.getStringImageUri())
                         .build();
 
