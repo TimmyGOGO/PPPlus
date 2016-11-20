@@ -49,6 +49,18 @@ public class Student implements Serializable {
         return myUri;
     }
 
+    public void setName(String _name) {
+        name = _name;
+    }
+
+    public void setNickName(String _name) {
+        nickName = _name;
+    }
+
+    public void setPlusAmount(int pA) {
+        plusAmount = pA;
+    }
+
     public int getPlusAmount() {
         return plusAmount;
     }
