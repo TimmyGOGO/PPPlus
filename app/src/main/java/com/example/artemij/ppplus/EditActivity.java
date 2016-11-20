@@ -54,7 +54,8 @@ public class EditActivity extends AppCompatActivity {
         if (type == "NEW") {
             setUpNewEnvironment();
         } else if (type == "EDIT") {
-            studEdit = (Student) i.getSerializableExtra("studentObject");
+            NStudent object = (NStudent) i.getParcelableExtra("studentObject");
+            studEdit = object.getChap();
             setUpEditEnvironment();
         }
 
@@ -90,13 +91,12 @@ public class EditActivity extends AppCompatActivity {
                         .setUri(studEdit.getStringImageUri())
                         .build();
 
-                Intent intent1 = new Intent();
-                intent1.putExtra("TypeCall", type);
-                Bundle b = new Bundle();
-                b.putSerializable("studentObject", studEdit);
-                intent1.putExtras(b);
+                NStudent dataToSend = new NStudent(studEdit);
+                Intent i = new Intent();
+                i.putExtra("TypeCall", type);
+                i.putExtra("studentObject", dataToSend);
 
-                setResult(Activity.RESULT_OK, intent1);
+                setResult(Activity.RESULT_OK, i);
                 finish();
             }
         });

@@ -40,6 +40,7 @@ public class NStudent implements Parcelable {
     // we originally wrote into the `Parcel`.  This constructor is usually
     // private so that only the `CREATOR` field can access.
     private NStudent(Parcel in) {
+        chap = new Student();
         chap.setName(in.readString());
         chap.setNickName(in.readString());
         chap.setPlusAmount(in.readInt());
@@ -49,6 +50,12 @@ public class NStudent implements Parcelable {
     }
 
     public NStudent() {
+        chap = new Student();
+        // Normal actions performed by class, since this is still a normal object!
+    }
+
+    public NStudent(Student s) {
+        chap = s;
         // Normal actions performed by class, since this is still a normal object!
     }
 

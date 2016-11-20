@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("TypeCall", "NEW");
                 startActivityForResult(intent, CALL_EDIT_ACTIVITY);
-                Toast.makeText(getApplicationContext(), "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -106,18 +106,26 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case CALL_EDIT_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
-                    Bundle bn = data.getExtras();
                     String type = data.getStringExtra("TypeCall");
-                    Student newStud = (Student) bn.getSerializable("studentObject");
+                    NStudent object = (NStudent) data.getParcelableExtra("studentObject");
+                    Student newStud = new Student(object.getChap());
 
-                    Log.d(LOG_TAG, "Ник=" + newStud.getNickName() + " Имя=" + newStud.getName() + " Плюсы= " + newStud.getPlusAmount());
+                    Log.d(LOG_TAG, "Ник=" + newStud.getNickName() + " Имя=" + newStud.getName() + " Плюсы= " + newStud.getPlusAmount() + " | Type= |" + type + "|");
 
-                    listS.add(newStud);
-                    int pos = listS.indexOf(newStud);
-                    (listS.get(pos)).setPosition(pos);
+                    if (type.equals("NEW")) {
+                        listS.add(newStud);
+                        int pos = listS.indexOf(newStud);
+                        (listS.get(pos)).setPosition(pos);
+                        Log.d(LOG_TAG, "Добавили новый элемент");
+                    } else if (type.equals("EDIT")) {
+                        listS.remove(newStud.getPosition());
+                        listS.add(newStud.getPosition(), newStud);
+                        Log.d(LOG_TAG, "Изменили элемент");
+                    }
+                    Log.d(LOG_TAG, "Размер списка = " + listS.size());
                     specAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(getApplicationContext(), "Ну, добавили=)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Ну, добавили =)", Toast.LENGTH_SHORT).show();
 
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     Toast.makeText(getApplicationContext(), "Передумали=)", Toast.LENGTH_SHORT).show();
@@ -153,11 +161,14 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == CM_EDIT_ID) {
             //запускаем вторую активность:
             final Student temp = listS.get(acmi.position - offset);
+            NStudent dataToSend = new NStudent(temp);
+
             Intent intent = new Intent(this, EditActivity.class);
             intent.putExtra("TypeCall", "EDIT");
-            intent.putExtra("studentObject", temp);
+            intent.putExtra("studentObject", dataToSend);
             startActivityForResult(intent, CALL_EDIT_ACTIVITY);
-            Toast.makeText(this, "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(this, "Выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
 
         } else if (item.getItemId() == CM_DELETE_ID) {
             //удаляем ненужный элемент списка:
