@@ -110,22 +110,17 @@ public class MainActivity extends AppCompatActivity {
                     NStudent object = (NStudent) data.getParcelableExtra("studentObject");
                     Student newStud = new Student(object.getChap());
 
-                    Log.d(LOG_TAG, "Ник=" + newStud.getNickName() + " Имя=" + newStud.getName() + " Плюсы= " + newStud.getPlusAmount() + " | Type= |" + type + "|");
-
                     if (type.equals("NEW")) {
                         listS.add(newStud);
                         int pos = listS.indexOf(newStud);
                         (listS.get(pos)).setPosition(pos);
-                        Log.d(LOG_TAG, "Добавили новый элемент");
-                        Log.d(LOG_TAG, "Ник = " + listS.get(pos).getNickName() + " Позиция = " + listS.get(pos).getPosition());
+
                     } else if (type.equals("EDIT")) {
-                        Log.d(LOG_TAG, "Ник = " + newStud.getNickName() + " Позиция = " + newStud.getPosition());
                         listS.remove(newStud.getPosition());
                         listS.add(newStud.getPosition(), newStud);
-                        Log.d(LOG_TAG, "Изменили элемент");
-                        Log.d(LOG_TAG, "Ник = " + listS.get(newStud.getPosition()).getNickName() + " Позиция = " + listS.get(newStud.getPosition()).getPosition());
+
                     }
-                    Log.d(LOG_TAG, "Размер списка = " + listS.size());
+
                     specAdapter.notifyDataSetChanged();
 
                     Toast.makeText(getApplicationContext(), "Ну, добавили =)", Toast.LENGTH_SHORT).show();
