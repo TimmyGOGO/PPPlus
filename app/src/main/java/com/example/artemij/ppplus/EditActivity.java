@@ -51,9 +51,9 @@ public class EditActivity extends AppCompatActivity {
         type = i.getStringExtra("TypeCall");
         studEdit = new Student();
 
-        if (type == "NEW") {
+        if (type.equals("NEW")) {
             setUpNewEnvironment();
-        } else if (type == "EDIT") {
+        } else if (type.equals("EDIT")) {
             NStudent object = (NStudent) i.getParcelableExtra("studentObject");
             studEdit = object.getChap();
             setUpEditEnvironment();
