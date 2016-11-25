@@ -3,6 +3,7 @@ package com.example.artemij.ppplus;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -93,18 +94,16 @@ public class StudAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.textFullname)).setTypeface(myTypeFace);
         ((TextView) view.findViewById(R.id.textFullname)).setText(temp.getName());
 
-        if (!temp.getStringImageUri().equals("")) {
-            Bitmap galleryPic = null;
-            CircleImageView img = (CircleImageView) view.findViewById(R.id.student_image);
-            try {
-                galleryPic = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), temp.getStudentImageUri());
-                img.setImageBitmap(galleryPic);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Bitmap galleryPic = null;
+        CircleImageView img = (CircleImageView) view.findViewById(R.id.student_image);
+
+        try {
+            galleryPic = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), temp.getStudentImageUri());
+        } catch (Exception e) {
+            galleryPic = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.no_avatar);
         }
+
+        img.setImageBitmap(galleryPic);
 
         //для реализации фишек:
         view.setLongClickable(true);

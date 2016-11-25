@@ -131,7 +131,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
 
         long i = db.update(TABLE_STUDENTS,
                 values,
-                KEY_ID,
+                KEY_ID + " = ?",
                 new String[]{String.valueOf(student.getID())});
 
         db.close();
@@ -155,7 +155,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
 
         long i = db.update(TABLE_STUDENTS,
                 values,
-                KEY_ID,
+                KEY_ID + " = ?",
                 new String[]{String.valueOf(student.getID())});
 
         db.close();

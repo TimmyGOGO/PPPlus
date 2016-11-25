@@ -211,12 +211,12 @@ public class MainActivity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //удаляем ненужный элемент списка:
                                     long studID = listS.get(acmi.position - offset).getID();
-                                    listS.remove(acmi.position - offset);
-                                    specAdapter.notifyDataSetChanged();
                                     //удалим из базы:
                                     dbStudent.deleteStudent(studID);
+                                    //удаляем ненужный элемент из списка:
+                                    listS.remove(acmi.position - offset);
+                                    specAdapter.notifyDataSetChanged();
                                     Log.d(LOG_TAG, "Элемент в позиции " + (acmi.position - offset) + " удален");
                                 }
                             })
