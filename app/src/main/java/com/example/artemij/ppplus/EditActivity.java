@@ -63,7 +63,7 @@ public class EditActivity extends AppCompatActivity {
         if (type.equals("NEW")) {
             setUpNewEnvironment();
         } else if (type.equals("EDIT")) {
-            int studID = i.getIntExtra("StudentID", -1);
+            long studID = i.getLongExtra("StudentID", -1);
             if (studID != -1) {
                 studEdit = dbStudent.getStudent(studID);
                 setUpEditEnvironment();

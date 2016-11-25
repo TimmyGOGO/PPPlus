@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //функция для нахождения элемента списка по ID:
-    private Student findStudentByID(ArrayList<Student> slist, int id) {
+    private Student findStudentByID(ArrayList<Student> slist, long id) {
         for (Student s : slist) {
             if (s.getID() == id) {
                 return s;
@@ -133,10 +133,15 @@ public class MainActivity extends AppCompatActivity {
             case CALL_EDIT_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
                     String type = data.getStringExtra("TypeCall");
-                    int studID = data.getIntExtra("StudentID", -1);
+                    long studID = data.getLongExtra("StudentID", -1);
+
+                    Log.d(LOG_TAG, "ID Студента = " + studID + " | Type= |" + type + "|");
+
                     if (studID != -1) {
                         if (type.equals("NEW")) {
                             //вынимаем из базы нового добавленного студента
+                            Student s = dbStudent.getStudent(studID);
+                            Log.d(LOG_TAG, "Ник=" + s.getNickName() + " Имя=" + s.getName() + " Плюсы= " + s.getPlusAmount() + " | ID= |" + s.getID() + "|");
                             listS.add(dbStudent.getStudent(studID));
 
                         } else if (type.equals("EDIT")) {
@@ -175,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == CM_PLUS_ID) {
 
-            int studID = listS.get(acmi.position - offset).getID();
+            long studID = listS.get(acmi.position - offset).getID();
             //прибавим значение:
             (listS.get(acmi.position - offset)).addPlus();
             //обновим элемент в базе:
@@ -207,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //удаляем ненужный элемент списка:
-                                    int studID = listS.get(acmi.position - offset).getID();
+                                    long studID = listS.get(acmi.position - offset).getID();
                                     listS.remove(acmi.position - offset);
                                     specAdapter.notifyDataSetChanged();
                                     //удалим из базы:

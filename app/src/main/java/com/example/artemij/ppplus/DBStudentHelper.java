@@ -32,7 +32,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_STUDENTS_TABLE = "CREATE TABLE " + TABLE_STUDENTS + " ( " +
-                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                KEY_ID + " LONG PRIMARY KEY AUTOINCREMENT, " +
                 KEY_NAME + " TEXT, " +
                 KEY_NICKNAME + " TEXT, " +
                 KEY_PLUS_AMOUNT + " INTEGER, " +
@@ -65,7 +65,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public Student getStudent(int id) {
+    public Student getStudent(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         //извлекаем запись с нашим id:
@@ -82,7 +82,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
         if (cursor != null) cursor.moveToFirst();
 
         Student newStudent = Student.newBuilder()
-                .setID(cursor.getInt(0))
+                .setID(cursor.getLong(0))
                 .setName(cursor.getString(1))
                 .setNickName(cursor.getString(2))
                 .setPlusAmount(cursor.getInt(3))
@@ -105,7 +105,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 student = Student.newBuilder()
-                        .setID(cursor.getInt(0))
+                        .setID(cursor.getLong(0))
                         .setName(cursor.getString(1))
                         .setNickName(cursor.getString(2))
                         .setPlusAmount(cursor.getInt(3))
@@ -120,7 +120,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
     }
 
     //обновим студента:
-    public int updateStudent(Student student) {
+    public long updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -129,7 +129,7 @@ public class DBStudentHelper extends SQLiteOpenHelper {
         values.put(KEY_PLUS_AMOUNT, student.getPlusAmount());
         values.put(KEY_IMAGE_URI, student.getStringImageUri());
 
-        int i = db.update(TABLE_STUDENTS,
+        long i = db.update(TABLE_STUDENTS,
                 values,
                 KEY_ID,
                 new String[]{String.valueOf(student.getID())});
@@ -139,21 +139,21 @@ public class DBStudentHelper extends SQLiteOpenHelper {
     }
 
     //удалим студента:
-    public void deleteStudent(int id) {
+    public void deleteStudent(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int delCount = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        long delCount = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
     //изменим только количество плюсов:
-    public int plusStudent(Student student) {
+    public long plusStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_PLUS_AMOUNT, student.getPlusAmount());
 
-        int i = db.update(TABLE_STUDENTS,
+        long i = db.update(TABLE_STUDENTS,
                 values,
                 KEY_ID,
                 new String[]{String.valueOf(student.getID())});

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Artemij on 06.11.2016.
  */
 public class Student implements Serializable {
-    private int ID;
+    private long ID;
     private String name;
     private String nickName;
     private int plusAmount;
@@ -48,7 +48,7 @@ public class Student implements Serializable {
         imageUri = imgUri;
     }
 
-    public void setID(int id) {
+    public void setID(long id) {
         ID = ID;
     }
 
@@ -61,7 +61,7 @@ public class Student implements Serializable {
         return nickName;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
@@ -108,7 +108,7 @@ public class Student implements Serializable {
         }
 
         //Setters:
-        public Builder setID(int ID) {
+        public Builder setID(long ID) {
 
             Student.this.ID = ID;
             return this;
