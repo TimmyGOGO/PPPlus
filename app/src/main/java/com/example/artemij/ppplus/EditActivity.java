@@ -38,6 +38,8 @@ public class EditActivity extends AppCompatActivity {
     String type;
     Student studEdit;
 
+    //
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,7 @@ public class EditActivity extends AppCompatActivity {
                         .setName(edName.getText().toString())
                         .setNickName(edNick.getText().toString())
                         .setPlusAmount(plusAmount)
-                        .setPosition(studEdit.getPosition())
+                        .setID(studEdit.getID())
                         .setUri(studEdit.getStringImageUri())
                         .build();
 

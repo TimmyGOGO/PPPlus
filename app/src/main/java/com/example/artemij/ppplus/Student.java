@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Artemij on 06.11.2016.
  */
 public class Student implements Serializable {
-    private int position;
+    private int ID;
     private String name;
     private String nickName;
     private int plusAmount;
@@ -17,14 +17,14 @@ public class Student implements Serializable {
 
     //CONSTRUCTORS:
     public Student() {
-        position = 0;
+        ID = 0;
         name = "";
         nickName = "";
         plusAmount = 0;
         imageUri = "";
     }
     public Student(Student builder) {
-        position = builder.getPosition();
+        ID = builder.getID();
         name = builder.getName();
         nickName = builder.getNickName();
         plusAmount = builder.getPlusAmount();
@@ -47,8 +47,9 @@ public class Student implements Serializable {
     public void setUri(String imgUri) {
         imageUri = imgUri;
     }
-    public void setPosition(int pos) {
-        position = pos;
+
+    public void setID(int id) {
+        ID = ID;
     }
 
     //GETTERS:
@@ -59,8 +60,9 @@ public class Student implements Serializable {
     public String getNickName() {
         return nickName;
     }
-    public int getPosition() {
-        return position;
+
+    public int getID() {
+        return ID;
     }
 
     public int getPlusAmount() {
@@ -79,6 +81,13 @@ public class Student implements Serializable {
     }
 
     //ADDITIONS:
+    public void update(Student newUp) {
+        name = newUp.getName();
+        nickName = newUp.getNickName();
+        plusAmount = newUp.getPlusAmount();
+        imageUri = newUp.getStringImageUri();
+    }
+
     public void addPlus() {
         plusAmount = plusAmount + 1;
     }
@@ -99,9 +108,9 @@ public class Student implements Serializable {
         }
 
         //Setters:
-        public Builder setPosition(int pos) {
+        public Builder setID(int ID) {
 
-            Student.this.position = pos;
+            Student.this.ID = ID;
             return this;
         }
         public Builder setUri(String imgUri) {

@@ -32,7 +32,7 @@ public class NStudent implements Parcelable {
         out.writeString(chap.getName());
         out.writeString(chap.getNickName());
         out.writeInt(chap.getPlusAmount());
-        out.writeInt(chap.getPosition());
+        out.writeInt(chap.getID());
         out.writeString(chap.getStringImageUri());
     }
 
@@ -44,7 +44,7 @@ public class NStudent implements Parcelable {
         chap.setName(in.readString());
         chap.setNickName(in.readString());
         chap.setPlusAmount(in.readInt());
-        chap.setPosition(in.readInt());
+        chap.setID(in.readInt());
         chap.setUri(in.readString());
 
     }

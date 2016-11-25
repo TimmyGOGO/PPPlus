@@ -1,11 +1,14 @@
 package com.example.artemij.ppplus;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,18 +53,26 @@ public class MainActivity extends AppCompatActivity {
 
     View header;
 
+    //для сохранения общих настроек:
+    SharedPreferences sPref;
+    final String COUNT_ID = "count_id";
+    private int ID_COUNT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //шрифт:
         Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
 
+        //настройка списка:
+        //заголовок:
         specAdapter = new StudAdapter(this, listS);
         String[] hNames = {"Плюсы", "Фото", "Имя"};
         header = createHeader(hNames, myTypeFace);
 
-
+        //сам список:
         studList = (ListView) findViewById(R.id.listView);
         studList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 
@@ -71,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         studList.setClickable(true);
         registerForContextMenu(studList);
 
+        //кнопки:
         singleButton = (Button) findViewById(R.id.button);
         singleButton.setTypeface(myTypeFace);
         singleButton.setText("Добавить");
@@ -98,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
         return v;
     }
 
+    //функция для нахождения элемента списка по ID:
+    private Student findStudentByID(ArrayList<Student> slist, int id) {
+        for (Student s : slist) {
+            if (s.getID() == id) {
+                return s;
+            }
+        }
+        return null;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,13 +132,14 @@ public class MainActivity extends AppCompatActivity {
                     Student newStud = new Student(object.getChap());
 
                     if (type.equals("NEW")) {
+                        //здесь нужно добавить связь с базой и получение ID:
+                        //......
                         listS.add(newStud);
-                        int pos = listS.indexOf(newStud);
-                        (listS.get(pos)).setPosition(pos);
 
                     } else if (type.equals("EDIT")) {
-                        listS.remove(newStud.getPosition());
-                        listS.add(newStud.getPosition(), newStud);
+                        //здесь нужно добавить связь с базой и обновление элемента:
+                        //......
+                        findStudentByID(listS, newStud.getID()).update(newStud);
 
                     }
 
@@ -147,11 +169,14 @@ public class MainActivity extends AppCompatActivity {
         final AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         //если добавили header-ы к списку, то  придется вычитать их из позиции:
-        int offset = studList.getHeaderViewsCount();
+        final int offset = studList.getHeaderViewsCount();
 
         if (item.getItemId() == CM_PLUS_ID) {
             //прибавляем значение:
+            //здесь нужно добавить связь с базой данных:
+            //.....
             (listS.get(acmi.position - offset)).addPlus();
+
             specAdapter.notifyDataSetChanged();
             Log.d(LOG_TAG, "Элементу в позиции " + (acmi.position - offset) + " прибавлен плюс");
 
@@ -159,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == CM_EDIT_ID) {
             //запускаем вторую активность:
             final Student temp = listS.get(acmi.position - offset);
+            //здесь нужно добавить связь с базой данных:
+            //.....
+            temp.setPosition(acmi.position - offset);
             NStudent dataToSend = new NStudent(temp);
 
             Intent intent = new Intent(this, EditActivity.class);
@@ -169,10 +197,33 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
 
         } else if (item.getItemId() == CM_DELETE_ID) {
-            //удаляем ненужный элемент списка:
-            listS.remove(acmi.position - offset);
-            specAdapter.notifyDataSetChanged();
-            Log.d(LOG_TAG, "Элемент в позиции " + (acmi.position - offset) + " удален");
+            //диалоговое окно:
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Вы исключаете студента!")
+                    .setMessage("Вы уверены?")
+                    .setIcon(R.drawable.warning)
+                    .setCancelable(false)
+                    .setPositiveButton("Уверены",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //удаляем ненужный элемент списка:
+                                    //здесь нужно добавить связь с базой данных:
+                                    //.....
+                                    listS.remove(acmi.position - offset);
+                                    specAdapter.notifyDataSetChanged();
+                                    Log.d(LOG_TAG, "Элемент в позиции " + (acmi.position - offset) + " удален");
+                                }
+                            })
+                    .setNegativeButton("Погорячились",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
         }
 
         return super.onContextItemSelected(item);
