@@ -38,7 +38,8 @@ public class EditActivity extends AppCompatActivity {
     String type;
     Student studEdit;
 
-    //
+    //база данных:
+    DBStudentHelper dbStudent;
 
 
     @Override
@@ -46,19 +47,27 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        //шрифт и настройка среды:
         Typeface myTF = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
         setUpEnvironmentViews(myTF);
 
+        //загружаем БД:
+        dbStudent = new DBStudentHelper(getApplicationContext());
+
+        //получаем данные из MainActivity:
         Intent i = getIntent();
         type = i.getStringExtra("TypeCall");
         studEdit = new Student();
 
+
         if (type.equals("NEW")) {
             setUpNewEnvironment();
         } else if (type.equals("EDIT")) {
-            NStudent object = (NStudent) i.getParcelableExtra("studentObject");
-            studEdit = object.getChap();
-            setUpEditEnvironment();
+            int studID = i.getIntExtra("StudentID", -1);
+            if (studID != -1) {
+                studEdit = dbStudent.getStudent(studID);
+                setUpEditEnvironment();
+            }
         }
 
 
@@ -80,12 +89,14 @@ public class EditActivity extends AppCompatActivity {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //получаем плюсы:
                 int plusAmount;
                 try {
                     plusAmount = Integer.parseInt(edPlus.getText().toString());
                 } catch (Exception e) {
                     plusAmount = 0;
                 }
+                //описываем студента введенными данными:
                 studEdit = Student.newBuilder()
                         .setName(edName.getText().toString())
                         .setNickName(edNick.getText().toString())
@@ -94,10 +105,17 @@ public class EditActivity extends AppCompatActivity {
                         .setUri(studEdit.getStringImageUri())
                         .build();
 
-                NStudent dataToSend = new NStudent(studEdit);
+                //работаем с бд:
+                long studID = -1;
+                if (type.equals("NEW")) { //если нужно было создать новый элемент:
+                    studID = dbStudent.addStudent(studEdit);
+                } else if (type.equals("EDIT")) { //если нужно было изменить:
+                    studID = dbStudent.updateStudent(studEdit);
+                }
+
                 Intent i = new Intent();
                 i.putExtra("TypeCall", type);
-                i.putExtra("studentObject", dataToSend);
+                i.putExtra("StudentID", studID);
 
                 setResult(Activity.RESULT_OK, i);
                 finish();

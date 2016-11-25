@@ -53,10 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     View header;
 
-    //для сохранения общих настроек:
-    SharedPreferences sPref;
-    final String COUNT_ID = "count_id";
-    private int ID_COUNT;
+    //база данных:
+    DBStudentHelper dbStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
         //шрифт:
         Typeface myTypeFace = Typeface.createFromAsset(getAssets(), "HelveticaNeueCyr-Light.otf");
 
+        //загружаем базу:
+        dbStudent = new DBStudentHelper(getApplicationContext());
+
         //настройка списка:
-        //заголовок:
+        //получаем список студентов из нашей базы:
+        listS = dbStudent.getAllStudents();
         specAdapter = new StudAdapter(this, listS);
+
+        //заголовок:
         String[] hNames = {"Плюсы", "Фото", "Имя"};
         header = createHeader(hNames, myTypeFace);
 
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         studList.setFocusable(false);
         studList.setClickable(true);
         registerForContextMenu(studList);
+
 
         //кнопки:
         singleButton = (Button) findViewById(R.id.button);
@@ -128,19 +133,16 @@ public class MainActivity extends AppCompatActivity {
             case CALL_EDIT_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
                     String type = data.getStringExtra("TypeCall");
-                    NStudent object = (NStudent) data.getParcelableExtra("studentObject");
-                    Student newStud = new Student(object.getChap());
+                    int studID = data.getIntExtra("StudentID", -1);
+                    if (studID != -1) {
+                        if (type.equals("NEW")) {
+                            //вынимаем из базы нового добавленного студента
+                            listS.add(dbStudent.getStudent(studID));
 
-                    if (type.equals("NEW")) {
-                        //здесь нужно добавить связь с базой и получение ID:
-                        //......
-                        listS.add(newStud);
-
-                    } else if (type.equals("EDIT")) {
-                        //здесь нужно добавить связь с базой и обновление элемента:
-                        //......
-                        findStudentByID(listS, newStud.getID()).update(newStud);
-
+                        } else if (type.equals("EDIT")) {
+                            //находим студента по ID и обновляем его, получая информацию из базы:
+                            findStudentByID(listS, studID).update(dbStudent.getStudent(studID));
+                        }
                     }
 
                     specAdapter.notifyDataSetChanged();
@@ -172,26 +174,23 @@ public class MainActivity extends AppCompatActivity {
         final int offset = studList.getHeaderViewsCount();
 
         if (item.getItemId() == CM_PLUS_ID) {
-            //прибавляем значение:
-            //здесь нужно добавить связь с базой данных:
-            //.....
+
+            int studID = listS.get(acmi.position - offset).getID();
+            //прибавим значение:
             (listS.get(acmi.position - offset)).addPlus();
+            //обновим элемент в базе:
+            dbStudent.plusStudent(dbStudent.getStudent(studID));
 
             specAdapter.notifyDataSetChanged();
             Log.d(LOG_TAG, "Элементу в позиции " + (acmi.position - offset) + " прибавлен плюс");
 
             return true;
-        } else if (item.getItemId() == CM_EDIT_ID) {
+        } else if (item.getItemId() == CM_EDIT_ID) { //переходим на EditActivity
             //запускаем вторую активность:
             final Student temp = listS.get(acmi.position - offset);
-            //здесь нужно добавить связь с базой данных:
-            //.....
-            temp.setPosition(acmi.position - offset);
-            NStudent dataToSend = new NStudent(temp);
-
             Intent intent = new Intent(this, EditActivity.class);
             intent.putExtra("TypeCall", "EDIT");
-            intent.putExtra("studentObject", dataToSend);
+            intent.putExtra("StudentID", temp.getID());
             startActivityForResult(intent, CALL_EDIT_ACTIVITY);
 
             Toast.makeText(this, "Выполнен переход в новую активность", Toast.LENGTH_SHORT).show();
@@ -208,10 +207,11 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //удаляем ненужный элемент списка:
-                                    //здесь нужно добавить связь с базой данных:
-                                    //.....
+                                    int studID = listS.get(acmi.position - offset).getID();
                                     listS.remove(acmi.position - offset);
                                     specAdapter.notifyDataSetChanged();
+                                    //удалим из базы:
+                                    dbStudent.deleteStudent(studID);
                                     Log.d(LOG_TAG, "Элемент в позиции " + (acmi.position - offset) + " удален");
                                 }
                             })

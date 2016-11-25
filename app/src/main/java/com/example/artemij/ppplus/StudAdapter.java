@@ -113,11 +113,10 @@ public class StudAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NStudent dataToSend = new NStudent(temp);
 
                 Intent intent = new Intent(ctx, EditActivity.class);
                 intent.putExtra("TypeCall", "EDIT");
-                intent.putExtra("studentObject", dataToSend);
+                intent.putExtra("StudentID", temp.getID());
 
                 ((MainActivity) ctx).startActivityForResult(intent, CALL_EDIT_ACTIVITY);
                 Toast.makeText(ctx, "выполнен переход в новую активность", Toast.LENGTH_SHORT).show();

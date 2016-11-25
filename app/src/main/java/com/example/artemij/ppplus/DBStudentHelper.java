@@ -139,10 +139,10 @@ public class DBStudentHelper extends SQLiteOpenHelper {
     }
 
     //удалим студента:
-    public void deleteStudent(Student student) {
+    public void deleteStudent(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int delCount = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(student.getID())});
+        int delCount = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
