@@ -180,11 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == CM_PLUS_ID) {
 
-            long studID = listS.get(acmi.position - offset).getID();
             //прибавим значение:
             (listS.get(acmi.position - offset)).addPlus();
             //обновим элемент в базе:
-            dbStudent.plusStudent(dbStudent.getStudent(studID));
+            dbStudent.plusStudent(listS.get(acmi.position - offset));
 
             specAdapter.notifyDataSetChanged();
             Log.d(LOG_TAG, "Элементу в позиции " + (acmi.position - offset) + " прибавлен плюс");
